@@ -1,142 +1,142 @@
-# 🌱 Plant Growing Game - Juego de Cultivo de Plantas
+# 🌱 Plant Growing Game
 
-Un juego educativo interactivo sobre agricultura sostenible donde los jugadores aprenden a cultivar plantas desde semillas hasta la cosecha, gestionando factores como pH del suelo, nutrientes, agua y condiciones ambientales.
+An interactive educational game about sustainable agriculture where players learn to grow plants from seeds to harvest, managing factors like soil pH, nutrients, water, and environmental conditions.
 
-## 🎮 Descripción del Proyecto
+## 🎮 Project Description
 
-Este es un juego web desarrollado en **React + TypeScript** que simula el proceso de cultivo de plantas de manera realista y educativa. Los jugadores deben tomar decisiones sobre el cuidado de sus plantas, aprendiendo sobre:
+This is a web game developed in **React + TypeScript** that realistically and educationally simulates the plant growing process. Players must make decisions about plant care, learning about:
 
-- **Gestión del suelo**: pH, nutrientes (N-P-K), materia orgánica
-- **Riego**: Niveles de agua y humedad
-- **Condiciones ambientales**: Temperatura y efectos climáticos
-- **Etapas de crecimiento**: Desde semilla hasta cosecha con papas y flores
+- **Soil management**: pH, nutrients (N-P-K), organic matter
+- **Irrigation**: Water levels and humidity
+- **Environmental conditions**: Temperature and weather effects
+- **Growth stages**: From seed to harvest with potatoes and flowers
 
-## ✨ Características Principales
+## ✨ Main Features
 
-### 🎯 Mecánicas de Juego
-- **5 etapas de crecimiento** progresivas
-- **Sistema de puntuación** basado en salud de la planta
-- **Efectos ambientales** dinámicos (lluvia, sol, viento)
-- **Retroalimentación educativa** detallada al final del juego
+### 🎯 Game Mechanics
+- **5 progressive growth stages**
+- **Scoring system** based on plant health
+- **Dynamic environmental effects** (rain, sun, wind)
+- **Detailed educational feedback** at game end
 
-### 🎨 Visualización
-- **Animaciones fluidas** con CSS y JavaScript
-- **Representación visual realista** de plantas, papas y flores
-- **Efectos de partículas** y elementos ambientales
-- **Interfaz responsive** adaptable a diferentes pantallas
+### 🎨 Visualization
+- **Smooth animations** with CSS and JavaScript
+- **Realistic visual representation** of plants, potatoes, and flowers
+- **Particle effects** and environmental elements
+- **Responsive interface** adaptable to different screens
 
-### 📊 Sistema de Gestión
-- **Panel de acciones** para riego, fertilización y ajustes
-- **Indicadores en tiempo real** de salud y condiciones
-- **Progreso visual** con barras y métricas
-- **Análisis de rendimiento** al completar el juego
+### 📊 Management System
+- **Action panel** for watering, fertilizing, and adjustments
+- **Real-time indicators** of health and conditions
+- **Visual progress** with bars and metrics
+- **Performance analysis** upon game completion
 
-## 🛠️ Tecnologías Utilizadas
+## 🛠️ Technologies Used
 
 - **Frontend**: React 18 + TypeScript
 - **Styling**: Tailwind CSS
-- **Iconos**: Lucide React
+- **Icons**: Lucide React
 - **Build Tool**: Vite
 - **Linting**: ESLint
 
-## 🚀 Instalación y Ejecución
+## 🚀 Installation and Setup
 
-### Prerrequisitos
-- **Node.js** (versión 16 o superior)
-- **npm** o **yarn**
+### Prerequisites
+- **Node.js** (version 16 or higher)
+- **npm** or **yarn**
 - **Git**
 
-### Pasos para ejecutar el proyecto
+### Steps to run the project
 
-1. **Clonar el repositorio**
+1. **Clone the repository**
    ```bash
-   git clone https://github.com/tu-usuario/plant-growing-game.git
+   git clone https://github.com/your-username/plant-growing-game.git
    cd plant-growing-game
    ```
 
-2. **Instalar dependencias**
+2. **Install dependencies**
    ```bash
    npm install
    ```
 
-3. **Ejecutar en modo desarrollo**
+3. **Run in development mode**
    ```bash
    npm run dev
    ```
 
-4. **Abrir en el navegador**
-   - El juego estará disponible en: `http://localhost:5173/`
+4. **Open in browser**
+   - The game will be available at: `http://localhost:5173/`
 
-### Comandos Disponibles
+### Available Commands
 
 ```bash
-# Desarrollo
-npm run dev          # Inicia servidor de desarrollo
+# Development
+npm run dev          # Start development server
 
-# Producción
-npm run build        # Construye para producción
-npm run preview      # Vista previa de build de producción
+# Production
+npm run build        # Build for production
+npm run preview      # Preview production build
 
-# Calidad de código
-npm run lint         # Ejecuta ESLint
-npm run typecheck    # Verifica tipos de TypeScript
+# Code quality
+npm run lint         # Run ESLint
+npm run typecheck    # Check TypeScript types
 ```
 
-## 🎯 Cómo Jugar
+## 🎯 How to Play
 
-1. **Inicio**: Comienza con una semilla en etapa 1
-2. **Gestión**: Usa el panel de acciones para:
-   - 💧 Regar la planta
-   - 🧪 Añadir fertilizantes (N-P-K)
-   - 🌿 Agregar compost
-   - ⚖️ Ajustar pH del suelo
-   - 🌡️ Controlar temperatura
-3. **Monitoreo**: Observa los indicadores de salud y condiciones
-4. **Progreso**: Avanza a través de 5 etapas de crecimiento
-5. **Cosecha**: Completa el ciclo y recibe retroalimentación detallada
+1. **Start**: Begin with a seed at stage 1
+2. **Management**: Use the action panel to:
+   - 💧 Water the plant
+   - 🧪 Add fertilizers (N-P-K)
+   - 🌿 Add compost
+   - ⚖️ Adjust soil pH
+   - 🌡️ Control temperature
+3. **Monitoring**: Watch health and condition indicators
+4. **Progress**: Advance through 5 growth stages
+5. **Harvest**: Complete the cycle and receive detailed feedback
 
-## 📁 Estructura del Proyecto
+## 📁 Project Structure
 
 ```
 src/
-├── components/          # Componentes React
-│   ├── PlantVisualization.tsx    # Visualización principal de la planta
-│   ├── ActionPanel.tsx           # Panel de acciones del jugador
-│   ├── IndicatorPanel.tsx        # Indicadores de estado
-│   ├── ScorePanel.tsx            # Panel de puntuación
+├── components/          # React components
+│   ├── PlantVisualization.tsx    # Main plant visualization
+│   ├── ActionPanel.tsx           # Player action panel
+│   ├── IndicatorPanel.tsx        # Status indicators
+│   ├── ScorePanel.tsx            # Score panel
 │   └── ...
 ├── hooks/              # Custom hooks
-│   └── useGameLogic.ts           # Lógica principal del juego
-├── types/              # Definiciones de tipos TypeScript
-│   └── game.ts                   # Tipos del juego
-├── data/               # Datos del juego
-│   └── growthStages.ts           # Configuración de etapas
+│   └── useGameLogic.ts           # Main game logic
+├── types/              # TypeScript type definitions
+│   └── game.ts                   # Game types
+├── data/               # Game data
+│   └── growthStages.ts           # Stage configuration
 └── ...
 ```
 
-## 🎓 Valor Educativo
+## 🎓 Educational Value
 
-Este juego enseña conceptos importantes de agricultura sostenible:
-- **Química del suelo** y balance de nutrientes
-- **Gestión del agua** y conservación
-- **Ciclos de crecimiento** de las plantas
-- **Factores ambientales** que afectan los cultivos
-- **Toma de decisiones** en agricultura
+This game teaches important concepts of sustainable agriculture:
+- **Soil chemistry** and nutrient balance
+- **Water management** and conservation
+- **Plant growth cycles**
+- **Environmental factors** affecting crops
+- **Decision making** in agriculture
 
-## 🤝 Contribuciones
+## 🤝 Contributing
 
-¡Las contribuciones son bienvenidas! Si quieres mejorar el juego:
+Contributions are welcome! If you want to improve the game:
 
-1. Fork el repositorio
-2. Crea una rama para tu feature (`git checkout -b feature/nueva-caracteristica`)
-3. Commit tus cambios (`git commit -m 'Añadir nueva característica'`)
-4. Push a la rama (`git push origin feature/nueva-caracteristica`)
-5. Abre un Pull Request
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/new-feature`)
+3. Commit your changes (`git commit -m 'Add new feature'`)
+4. Push to the branch (`git push origin feature/new-feature`)
+5. Open a Pull Request
 
-## 📄 Licencia
+## 📄 License
 
-Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más detalles.
+This project is under the MIT License. See the `LICENSE` file for more details.
 
 ---
 
-**¡Disfruta aprendiendo sobre agricultura sostenible! 🌱🎮**
+**Enjoy learning about sustainable agriculture! 🌱🎮**
