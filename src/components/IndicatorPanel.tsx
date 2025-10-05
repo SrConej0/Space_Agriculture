@@ -158,7 +158,7 @@ export default function IndicatorPanel({ soil, plantHealth, waterLevel }: Indica
           <div className="space-y-2">
             <div>
               <div className="flex justify-between text-xs mb-1">
-                <span className="text-blue-400">N: {soil.nitrogen.toFixed(0)} kg/ha</span>
+                <span className="text-cyan-400">N: {soil.nitrogen.toFixed(0)} kg/ha</span>
                 <span className="text-gray-500">80-120</span>
               </div>
               <div className="h-2 bg-gray-700 rounded-full overflow-hidden">

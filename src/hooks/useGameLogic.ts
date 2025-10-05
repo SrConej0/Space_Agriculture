@@ -15,6 +15,10 @@ export function useGameLogic() {
 
   const [daysInStage, setDaysInStage] = useState(0);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [environmentalEffects, setEnvironmentalEffects] = useState({
+    isRaining: false,
+    isDayTime: true
+  });
 
   const calculatePlantHealth = useCallback((soil: typeof initialSoilData, waterLevel: number) => {
     let health = 50;
@@ -91,6 +95,37 @@ export function useGameLogic() {
       }
     }
     return null;
+  }, []);
+
+  // Function to handle environmental effects
+  const handleEnvironmentalChange = useCallback((isRaining: boolean, isDayTime: boolean) => {
+    setEnvironmentalEffects({ isRaining, isDayTime });
+    
+    // Apply environmental effects to soil
+    setGameState(prev => {
+      const newSoil = { ...prev.soil };
+      
+      if (isRaining) {
+        // Rain increases humidity and water level, slightly decreases temperature
+        newSoil.humidity = Math.min(100, newSoil.humidity + 5);
+        newSoil.temperature = Math.max(5, newSoil.temperature - 1);
+        return {
+          ...prev,
+          soil: newSoil,
+          waterLevel: Math.min(100, prev.waterLevel + 10)
+        };
+      }
+      
+      if (!isDayTime) {
+        // Night decreases temperature
+        newSoil.temperature = Math.max(5, newSoil.temperature - 2);
+      } else {
+        // Day increases temperature
+        newSoil.temperature = Math.min(35, newSoil.temperature + 1);
+      }
+      
+      return { ...prev, soil: newSoil };
+    });
   }, []);
 
   const handleAction = useCallback((action: string) => {
@@ -216,6 +251,7 @@ export function useGameLogic() {
     gameState,
     daysInStage,
     isProcessing,
-    handleAction
+    handleAction,
+    handleEnvironmentalChange
   };
 }

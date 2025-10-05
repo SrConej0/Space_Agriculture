@@ -158,7 +158,7 @@ export default function PlantVisualization({ stage, health }: PlantVisualization
                     width: `${plantSize * 0.4}px`,
                     height: `${plantSize * 0.4}px`,
                     left: `${-20 + i * 20}px`,
-                    top: `${plantSize * 0.2 + i * 15}px`, // Posición más baja
+                    top: `${plantSize * 0.1 + i * 12}px`, // Posición un poco más arriba
                     animation: `pulse ${2 + i * 0.5}s ease-in-out infinite`,
                     animationDelay: `${i * 0.3}s`
                   }}
@@ -215,7 +215,7 @@ export default function PlantVisualization({ stage, health }: PlantVisualization
 
         {stage >= 4 && (
           <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 flex gap-2">
-            {Array.from({ length: Math.min(stage - 2, 5) }).map((_, i) => (
+            {Array.from({ length: stage === 4 ? 3 : 5 }).map((_, i) => (
               <div
                 key={i}
                 className="w-6 h-6 rounded-full bg-gradient-to-br from-yellow-700 to-yellow-900 border-2 border-yellow-600"
