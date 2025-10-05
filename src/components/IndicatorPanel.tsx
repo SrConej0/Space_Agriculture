@@ -1,5 +1,6 @@
+import { useState, useEffect } from 'react';
 import { SoilData } from '../types/game';
-import { Droplets, Thermometer, Activity, Sprout, TrendingUp, TrendingDown, Minus } from 'lucide-react';
+import { Droplets, Thermometer, Activity, Sprout, TrendingUp, TrendingDown, Minus, Snowflake, Sun } from 'lucide-react';
 import EducationalTooltip from './EducationalTooltip';
 
 interface IndicatorPanelProps {
@@ -9,6 +10,27 @@ interface IndicatorPanelProps {
 }
 
 export default function IndicatorPanel({ soil, plantHealth, waterLevel }: IndicatorPanelProps) {
+  const [prevPh, setPrevPh] = useState(soil.ph);
+  const [prevTemp, setPrevTemp] = useState(soil.temperature);
+  const [phChanging, setPhChanging] = useState(false);
+  const [tempChanging, setTempChanging] = useState(false);
+
+  useEffect(() => {
+    // Detect pH changes
+    if (Math.abs(prevPh - soil.ph) > 0.1) {
+      setPhChanging(true);
+      setTimeout(() => setPhChanging(false), 1000);
+      setPrevPh(soil.ph);
+    }
+    
+    // Detect temperature changes
+    if (Math.abs(prevTemp - soil.temperature) > 0.2) {
+      setTempChanging(true);
+      setTimeout(() => setTempChanging(false), 1000);
+      setPrevTemp(soil.temperature);
+    }
+  }, [soil.ph, soil.temperature, prevPh, prevTemp]);
+
   const getStatusColor = (value: number, min: number, max: number) => {
     if (value >= min && value <= max) return 'text-green-400';
     if (value < min * 0.7 || value > max * 1.3) return 'text-red-400';
@@ -21,6 +43,13 @@ export default function IndicatorPanel({ soil, plantHealth, waterLevel }: Indica
     return TrendingUp;
   };
 
+  // Get additional icon for temperature
+  const getTempIcon = (temp: number) => {
+    if (temp < 15) return Snowflake;
+    if (temp > 22) return Sun;
+    return null;
+  };
+
   const indicators = [
     {
       icon: Activity,
@@ -29,7 +58,8 @@ export default function IndicatorPanel({ soil, plantHealth, waterLevel }: Indica
       optimal: '5.5-6.5',
       color: getStatusColor(soil.ph, 5.5, 6.5),
       trendIcon: getTrendIcon(soil.ph, 5.5, 6.5),
-      info: 'Soil pH affects nutrient availability. Potatoes thrive in slightly acidic conditions (5.5-6.5). Lower pH reduces disease risk.'
+      info: 'Soil pH affects nutrient availability. Potatoes thrive in slightly acidic conditions (5.5-6.5). Lower pH reduces disease risk.',
+      isChanging: phChanging
     },
     {
       icon: Droplets,
@@ -47,7 +77,9 @@ export default function IndicatorPanel({ soil, plantHealth, waterLevel }: Indica
       optimal: '15-22°C',
       color: getStatusColor(soil.temperature, 15, 22),
       trendIcon: getTrendIcon(soil.temperature, 15, 22),
-      info: 'Potatoes prefer cool temperatures. Optimal range is 15-22°C. High temperatures reduce tuber formation and quality.'
+      info: 'Potatoes prefer cool temperatures. Optimal range is 15-22°C. High temperatures reduce tuber formation and quality.',
+      extraIcon: getTempIcon(soil.temperature),
+      isChanging: tempChanging
     },
     {
       icon: Sprout,
@@ -71,20 +103,46 @@ export default function IndicatorPanel({ soil, plantHealth, waterLevel }: Indica
         {indicators.map((indicator) => {
           const Icon = indicator.icon;
           const TrendIcon = indicator.trendIcon;
+          const ExtraIcon = indicator.extraIcon;
+          
           return (
-            <div key={indicator.label} className="bg-gray-800/50 rounded-lg p-3 border border-gray-700/50 hover:border-gray-600/50 transition-colors">
+            <div 
+              key={indicator.label} 
+              className={`bg-gray-800/50 rounded-lg p-3 border ${
+                indicator.isChanging 
+                  ? 'border-blue-500/70 shadow-[0_0_10px_rgba(59,130,246,0.5)]' 
+                  : 'border-gray-700/50 hover:border-gray-600/50'
+              } transition-all duration-300`}
+            >
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2">
-                  <Icon className={`w-4 h-4 ${indicator.color}`} />
+                  <Icon className={`w-4 h-4 ${indicator.color} ${indicator.isChanging ? 'animate-pulse' : ''}`} />
                   <span className="text-sm text-gray-300">{indicator.label}</span>
                   <EducationalTooltip title={indicator.label} content={indicator.info} />
                 </div>
                 <div className="flex items-center gap-2">
+                  {ExtraIcon && <ExtraIcon className={`w-4 h-4 ${indicator.color} ${indicator.isChanging ? 'animate-bounce' : ''}`} />}
                   <TrendIcon className={`w-4 h-4 ${indicator.color}`} />
-                  <span className={`text-lg font-bold ${indicator.color}`}>{indicator.value}</span>
+                  <span className={`text-lg font-bold ${indicator.color} ${
+                    indicator.isChanging ? 'scale-110 transition-transform' : ''
+                  }`}>{indicator.value}</span>
                 </div>
               </div>
               <div className="text-xs text-gray-500">Optimal: {indicator.optimal}</div>
+              
+              {/* Barra de progreso para visualizar el valor en relación al óptimo */}
+              {(indicator.label === 'pH Level' || indicator.label === 'Temperature') && (
+                <div className="mt-2 h-1.5 bg-gray-700 rounded-full overflow-hidden">
+                  <div 
+                    className={`h-full ${indicator.color} transition-all duration-500 ${indicator.isChanging ? 'animate-pulse' : ''}`}
+                    style={{ 
+                      width: indicator.label === 'pH Level' 
+                        ? `${Math.min(100, Math.max(0, (parseFloat(indicator.value) / 8) * 100))}%`
+                        : `${Math.min(100, Math.max(0, (parseFloat(indicator.value.replace('°C', '')) / 30) * 100))}%`
+                    }}
+                  ></div>
+                </div>
+              )}
             </div>
           );
         })}

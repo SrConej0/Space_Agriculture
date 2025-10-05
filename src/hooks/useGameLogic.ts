@@ -38,14 +38,59 @@ export function useGameLogic() {
   const calculateScore = useCallback((soil: typeof initialSoilData, health: number, stage: number) => {
     let score = 0;
 
-    score += health * 2;
-    score += soil.organicMatter * 10;
+    // Base score from plant health (more strict)
+    if (health >= 90) score += health * 3;
+    else if (health >= 70) score += health * 2;
+    else if (health >= 50) score += health * 1.5;
+    else score += health * 1;
+
+    // Organic matter (more important)
+    score += soil.organicMatter * 15;
+    
+    // Stage progression
     score += stage * 50;
 
-    if (soil.ph >= 5.5 && soil.ph <= 6.5) score += 20;
-    if (soil.nitrogen >= 80 && soil.phosphorus >= 60 && soil.potassium >= 100) score += 30;
+    // pH balance (more precise ranges)
+    if (soil.ph >= 5.8 && soil.ph <= 6.2) score += 40; // Perfect range
+    else if (soil.ph >= 5.5 && soil.ph <= 6.5) score += 20; // Good range
+    else if (soil.ph >= 5.0 && soil.ph <= 7.0) score += 5; // Acceptable range
+    else score -= 10; // Poor range
+
+    // Nutrient balance (more strict)
+    if (soil.nitrogen >= 90 && soil.phosphorus >= 70 && soil.potassium >= 120) score += 50; // Perfect
+    else if (soil.nitrogen >= 80 && soil.phosphorus >= 60 && soil.potassium >= 100) score += 25; // Good
+    else if (soil.nitrogen >= 60 && soil.phosphorus >= 40 && soil.potassium >= 80) score += 10; // Acceptable
+    
+    // Temperature penalty/bonus
+    if (soil.temperature >= 16 && soil.temperature <= 20) score += 15; // Perfect range
+    else if (soil.temperature < 12 || soil.temperature > 25) score -= 15; // Poor range
 
     return Math.floor(score);
+  }, []);
+
+  // Function to add random variation to values
+  const addRandomVariation = useCallback((value: number, min: number, max: number, variationAmount: number) => {
+    const variation = (Math.random() * 2 - 1) * variationAmount; // Variation between -variationAmount and +variationAmount
+    return Math.max(min, Math.min(max, value + variation));
+  }, []);
+  
+  // Function to simulate weather changes
+  const simulateWeatherChanges = useCallback(() => {
+    // 20% chance of weather change
+    if (Math.random() < 0.2) {
+      const weatherType = Math.random();
+      if (weatherType < 0.33) {
+        // Hot weather
+        return { tempChange: 3, humidityChange: -5, name: "hot" };
+      } else if (weatherType < 0.66) {
+        // Cold weather
+        return { tempChange: -3, humidityChange: 0, name: "cold" };
+      } else {
+        // Rainy weather
+        return { tempChange: -1, humidityChange: 10, name: "rainy" };
+      }
+    }
+    return null;
   }, []);
 
   const handleAction = useCallback((action: string) => {
@@ -55,15 +100,32 @@ export function useGameLogic() {
       const newState = { ...prev };
       const soil = { ...prev.soil };
 
+      // Simulate weather changes
+      const weatherChange = simulateWeatherChanges();
+      if (weatherChange) {
+        soil.temperature = Math.max(10, Math.min(30, soil.temperature + weatherChange.tempChange));
+        soil.humidity = Math.max(0, Math.min(100, soil.humidity + weatherChange.humidityChange));
+        console.log(`Weather change: ${weatherChange.name}!`);
+      }
+
+      // Add natural variation to pH and temperature with each action (more pronounced)
+      soil.ph = addRandomVariation(soil.ph, 4.0, 8.0, 0.3);
+      soil.temperature = addRandomVariation(soil.temperature, 10, 30, 0.8);
+
       switch (action) {
         case 'water':
           newState.waterLevel = Math.min(100, prev.waterLevel + 20);
           soil.humidity = Math.min(100, soil.humidity + 10);
+          // Water can slightly affect pH and lower temperature
+          soil.ph = addRandomVariation(soil.ph, 4.0, 8.0, 0.1);
+          soil.temperature = Math.max(10, soil.temperature - 0.5);
           break;
 
         case 'fertilize_n':
           soil.nitrogen = Math.min(150, soil.nitrogen + 20);
           soil.electricalConductivity = Math.min(3, soil.electricalConductivity + 0.2);
+          // Los fertilizantes pueden acidificar el suelo
+          soil.ph = Math.max(4.0, soil.ph - 0.1);
           break;
 
         case 'fertilize_p':
@@ -81,12 +143,24 @@ export function useGameLogic() {
           soil.nitrogen = Math.min(150, soil.nitrogen + 10);
           soil.phosphorus = Math.min(120, soil.phosphorus + 5);
           soil.potassium = Math.min(180, soil.potassium + 10);
+          // Compost can slightly increase soil temperature
+          soil.temperature = Math.min(30, soil.temperature + 0.3);
           break;
 
         case 'adjust_ph':
           const targetPh = 6.0;
           const diff = targetPh - soil.ph;
           soil.ph = soil.ph + (diff * 0.3);
+          break;
+          
+        case 'cool_soil':
+          // Nueva acción para enfriar el suelo
+          soil.temperature = Math.max(10, soil.temperature - 2);
+          break;
+          
+        case 'warm_soil':
+          // Nueva acción para calentar el suelo
+          soil.temperature = Math.min(30, soil.temperature + 2);
           break;
       }
 
@@ -106,11 +180,11 @@ export function useGameLogic() {
         const newState = { ...prev };
         const soil = { ...prev.soil };
 
-        soil.humidity = Math.max(0, soil.humidity - 2);
-        newState.waterLevel = Math.max(0, prev.waterLevel - 3);
-        soil.nitrogen = Math.max(0, soil.nitrogen - 1);
-        soil.phosphorus = Math.max(0, soil.phosphorus - 0.5);
-        soil.potassium = Math.max(0, soil.potassium - 1);
+        soil.humidity = Math.max(0, soil.humidity - 3);
+        newState.waterLevel = Math.max(0, prev.waterLevel - 4);
+        soil.nitrogen = Math.max(0, soil.nitrogen - 2);
+        soil.phosphorus = Math.max(0, soil.phosphorus - 1.5);
+        soil.potassium = Math.max(0, soil.potassium - 2);
 
         newState.soil = soil;
         newState.plantHealth = calculatePlantHealth(soil, newState.waterLevel);

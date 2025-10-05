@@ -36,6 +36,12 @@ export default function ActionPanel({ gameState, onAction, disabled }: ActionPan
     },
     adjust_ph: {
       details: 'Potatoes prefer slightly acidic soil (pH 5.5-6.5). pH affects nutrient availability and disease pressure. Too high pH increases scab disease, while too low reduces nutrient uptake.'
+    },
+    cool_soil: {
+      details: 'Cooling the soil helps during hot weather. Potatoes prefer cool temperatures between 15-22°C. Cooling can reduce stress and improve tuber formation during hot periods.'
+    },
+    warm_soil: {
+      details: 'Warming the soil can help during cold weather. While potatoes prefer cool temperatures, soil that is too cold (below 10°C) can slow growth and development.'
     }
   };
 
@@ -93,6 +99,24 @@ export default function ActionPanel({ gameState, onAction, disabled }: ActionPan
       color: 'from-green-600 to-green-500',
       borderColor: 'border-green-500/50',
       hoverColor: 'hover:border-green-400'
+    },
+    {
+      id: 'cool_soil',
+      icon: Droplet,
+      label: 'Cool Soil',
+      description: 'Reduce soil temperature',
+      color: 'from-blue-700 to-blue-600',
+      borderColor: 'border-blue-600/50',
+      hoverColor: 'hover:border-blue-500'
+    },
+    {
+      id: 'warm_soil',
+      icon: Zap,
+      label: 'Warm Soil',
+      description: 'Increase soil temperature',
+      color: 'from-red-600 to-red-500',
+      borderColor: 'border-red-500/50',
+      hoverColor: 'hover:border-red-400'
     }
   ];
 
