@@ -56,6 +56,7 @@ export default function ActionPanel({ gameState, onAction, disabled }: ActionPan
       hoverColor: 'hover:border-blue-400'
     },
     {
+      
       id: 'fertilize_n',
       icon: Beaker,
       label: 'Add Nitrogen',

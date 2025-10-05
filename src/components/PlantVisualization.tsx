@@ -149,18 +149,19 @@ export default function PlantVisualization({ stage, health }: PlantVisualization
         {stage >= 3 && (
           <div className="relative flex flex-col items-center">
             <div className="relative">
-              {/* Flores para etapas avanzadas (posición más baja) */}
+              {/* Flores para etapas avanzadas (posición más alta) */}
               {stage >= 5 && Array.from({ length: Math.min(stage - 4, 3) }).map((_, i) => (
                 <Flower
                   key={`flower-${i}`}
-                  className="absolute text-pink-400 drop-shadow-[0_0_10px_rgba(236,72,153,0.6)]"
+                  className="absolute text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.6)]"
                   style={{
                     width: `${plantSize * 0.4}px`,
                     height: `${plantSize * 0.4}px`,
                     left: `${-20 + i * 20}px`,
-                    top: `${plantSize * 0.1 + i * 12}px`, // Posición un poco más arriba
+                    top: `${-plantSize * 0.3 + i * 8}px`, // Moved much higher above the stem
                     animation: `pulse ${2 + i * 0.5}s ease-in-out infinite`,
-                    animationDelay: `${i * 0.3}s`
+                    animationDelay: `${i * 0.3}s`,
+                    zIndex: 10 // Ensure flowers appear above other elements
                   }}
                 />
               ))}
@@ -213,18 +214,57 @@ export default function PlantVisualization({ stage, health }: PlantVisualization
           </div>
         )}
 
-        {stage >= 4 && (
-          <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 flex gap-2">
-            {Array.from({ length: stage === 4 ? 3 : 5 }).map((_, i) => (
-              <div
-                key={i}
-                className="w-6 h-6 rounded-full bg-gradient-to-br from-yellow-700 to-yellow-900 border-2 border-yellow-600"
-                style={{
-                  animation: `pulse ${1.5 + i * 0.2}s ease-in-out infinite`,
-                  boxShadow: '0 0 15px rgba(234,179,8,0.5)'
-                }}
-              />
-            ))}
+        {stage >= 3 && (
+          <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2">
+            {Array.from({ length: stage === 3 ? 5 : stage === 4 ? 3 : 8 }).map((_, i) => {
+              // Create varied positioning for potatoes with more at higher levels
+              let positions;
+              
+              if (stage === 3) {
+                // Stage 3: 5 potatoes total (3 original + 2 higher)
+                positions = [
+                  { x: -20, y: 0 },    // Left, ground level
+                  { x: 10, y: -8 },    // Right, slightly higher
+                  { x: -5, y: -4 },    // Center, medium height
+                  { x: -15, y: -15 },  // Higher left
+                  { x: 15, y: -18 }    // Higher right
+                ];
+              } else if (stage === 4) {
+                // Stage 4: 3 potatoes (original configuration)
+                positions = [
+                  { x: -20, y: 0 },    // Left, ground level
+                  { x: 10, y: -8 },    // Right, slightly higher
+                  { x: -5, y: -4 }     // Center, medium height
+                ];
+              } else {
+                // Stage 5: 8 potatoes total (5 original + 3 higher)
+                positions = [
+                  { x: -20, y: 0 },    // Left, ground level
+                  { x: 10, y: -8 },    // Right, slightly higher
+                  { x: -5, y: -4 },    // Center, medium height
+                  { x: 25, y: -2 },    // Far right, slightly elevated
+                  { x: -35, y: -6 },   // Far left, higher
+                  { x: 0, y: -20 },    // Center top
+                  { x: -25, y: -22 },  // Left top
+                  { x: 20, y: -25 }    // Right top
+                ];
+              }
+              
+              const pos = positions[i] || { x: 0, y: 0 };
+              
+              return (
+                <div
+                  key={i}
+                  className="absolute w-6 h-6 rounded-full bg-gradient-to-br from-yellow-700 to-yellow-900 border-2 border-yellow-600"
+                  style={{
+                    left: `${pos.x}px`,
+                    top: `${pos.y}px`,
+                    animation: `pulse ${1.5 + i * 0.2}s ease-in-out infinite`,
+                    boxShadow: '0 0 15px rgba(234,179,8,0.5)'
+                  }}
+                />
+              );
+            })}
           </div>
         )}
 

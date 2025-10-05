@@ -142,33 +142,65 @@ function App() {
                 : 'text-red-400'
             }`}>
               {gameState.score >= 800 && gameState.plantHealth >= 85 
-                ? '¡Misión Completada Perfectamente!'
+                ? 'Mission Completed Perfectly!'
                 : gameState.score >= 600 && gameState.plantHealth >= 70
-                ? '¡Casi lo Logras!'
+                ? 'Almost There!'
                 : gameState.score >= 400 && gameState.plantHealth >= 50
-                ? 'Resultado Mediocre'
-                : 'Misión Fallida'}
+                ? 'Mediocre Result'
+                : 'Mission Failed'}
             </h2>
             <p className="text-gray-300 text-lg mb-4">
               {gameState.score >= 800 && gameState.plantHealth >= 85 
-                ? 'Has completado exitosamente el ciclo completo de crecimiento con prácticas sostenibles excepcionales.'
+                ? 'You have successfully completed the full growth cycle with exceptional sustainable practices.'
                 : gameState.score >= 600 && gameState.plantHealth >= 70
-                ? 'Has logrado un buen crecimiento, pero hay margen de mejora en tus técnicas agrícolas.'
+                ? 'You achieved good growth, but there is room for improvement in your agricultural techniques.'
                 : gameState.score >= 400 && gameState.plantHealth >= 50
-                ? 'La planta sobrevivió, pero tus técnicas necesitan mucho trabajo.'
-                : 'La planta no logró desarrollarse adecuadamente. Necesitas estudiar más sobre agricultura sostenible.'}
+                ? 'The plant survived, but your techniques need much work.'
+                : 'The plant failed to develop properly. You need to study more about sustainable agriculture.'}
             </p>
+            
+            {/* Detailed feedback section */}
+            <div className="bg-gray-800/50 rounded-lg p-4 mb-4 text-left">
+              <h3 className="text-lg font-semibold text-blue-400 mb-3">Performance Analysis:</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                <div>
+                  <h4 className="font-semibold text-green-400 mb-2">What you did well:</h4>
+                  <ul className="space-y-1 text-gray-300">
+                    {gameState.plantHealth >= 70 && <li>✓ Maintained good plant health ({gameState.plantHealth.toFixed(0)}%)</li>}
+                    {gameState.soil.ph >= 5.0 && gameState.soil.ph <= 7.0 && <li>✓ Kept pH in optimal range ({gameState.soil.ph.toFixed(1)})</li>}
+                    {gameState.soil.organicMatter >= 2 && <li>✓ Built up organic matter ({gameState.soil.organicMatter.toFixed(1)}%)</li>}
+                    {gameState.waterLevel >= 50 && <li>✓ Managed water levels well ({gameState.waterLevel.toFixed(0)}%)</li>}
+                    {gameState.soil.nitrogen >= 60 && <li>✓ Adequate nitrogen levels ({gameState.soil.nitrogen.toFixed(0)})</li>}
+                    {gameState.daysElapsed <= 25 && <li>✓ Efficient time management ({gameState.daysElapsed} days)</li>}
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="font-semibold text-red-400 mb-2">Areas for improvement:</h4>
+                  <ul className="space-y-1 text-gray-300">
+                    {gameState.plantHealth < 70 && <li>× Plant health too low ({gameState.plantHealth.toFixed(0)}% - aim for 70%+)</li>}
+                    {(gameState.soil.ph < 5.0 || gameState.soil.ph > 7.0) && <li>× pH out of range ({gameState.soil.ph.toFixed(1)} - aim for 5.0-7.0)</li>}
+                    {gameState.soil.organicMatter < 2 && <li>× Low organic matter ({gameState.soil.organicMatter.toFixed(1)}% - aim for 2%+)</li>}
+                    {gameState.waterLevel < 50 && <li>× Insufficient watering ({gameState.waterLevel.toFixed(0)}% - aim for 50%+)</li>}
+                    {gameState.soil.nitrogen < 60 && <li>× Low nitrogen levels ({gameState.soil.nitrogen.toFixed(0)} - aim for 60+)</li>}
+                    {gameState.soil.phosphorus < 40 && <li>× Low phosphorus levels ({gameState.soil.phosphorus.toFixed(0)} - aim for 40+)</li>}
+                    {gameState.soil.potassium < 80 && <li>× Low potassium levels ({gameState.soil.potassium.toFixed(0)} - aim for 80+)</li>}
+                    {gameState.daysElapsed > 30 && <li>× Took too long ({gameState.daysElapsed} days - aim for under 30)</li>}
+                  </ul>
+                </div>
+              </div>
+            </div>
+            
             <p className={`text-2xl font-bold ${
               gameState.score >= 800 ? 'text-green-400' :
               gameState.score >= 600 ? 'text-yellow-400' :
               gameState.score >= 400 ? 'text-orange-400' : 'text-red-400'
             }`}>
-              Puntuación Final: {gameState.score}
+              Final Score: {gameState.score}
             </p>
             <p className="text-gray-400 mt-2">
               {gameState.score >= 600 
-                ? 'Tu conocimiento de agricultura sostenible ayudará a alimentar a la humanidad en 2050.'
-                : 'Necesitas más práctica antes de poder ayudar a salvar la agricultura del futuro.'}
+                ? 'Your knowledge of sustainable agriculture will help feed humanity in 2050.'
+                : 'Study more about soil management, nutrient balance, and sustainable farming practices.'}
             </p>
           </div>
         )}

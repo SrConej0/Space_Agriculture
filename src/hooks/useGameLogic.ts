@@ -21,20 +21,34 @@ export function useGameLogic() {
   });
 
   const calculatePlantHealth = useCallback((soil: typeof initialSoilData, waterLevel: number) => {
-    let health = 50;
+    let health = 60; // Start with higher base health
 
-    if (soil.ph >= 5.5 && soil.ph <= 6.5) health += 10;
-    if (soil.humidity >= 60 && soil.humidity <= 80) health += 10;
-    if (soil.temperature >= 15 && soil.temperature <= 22) health += 10;
-    if (soil.nitrogen >= 80) health += 5;
-    if (soil.phosphorus >= 60) health += 5;
-    if (soil.potassium >= 100) health += 5;
-    if (soil.organicMatter >= 3) health += 10;
-    if (waterLevel >= 60 && waterLevel <= 80) health += 10;
+    // More forgiving pH range
+    if (soil.ph >= 5.0 && soil.ph <= 7.0) health += 15;
+    else if (soil.ph >= 4.5 && soil.ph <= 7.5) health += 8;
+    
+    // More forgiving humidity range
+    if (soil.humidity >= 50 && soil.humidity <= 90) health += 12;
+    else if (soil.humidity >= 40 && soil.humidity <= 95) health += 6;
+    
+    // More forgiving temperature range
+    if (soil.temperature >= 12 && soil.temperature <= 25) health += 12;
+    else if (soil.temperature >= 10 && soil.temperature <= 28) health += 6;
+    
+    // Lower nutrient requirements
+    if (soil.nitrogen >= 60) health += 8;
+    if (soil.phosphorus >= 40) health += 8;
+    if (soil.potassium >= 80) health += 8;
+    if (soil.organicMatter >= 2) health += 12;
+    
+    // More forgiving water level
+    if (waterLevel >= 50 && waterLevel <= 90) health += 12;
+    else if (waterLevel >= 40 && waterLevel <= 95) health += 6;
 
-    if (soil.ph < 5.0 || soil.ph > 7.0) health -= 15;
-    if (soil.humidity < 40 || soil.humidity > 90) health -= 10;
-    if (waterLevel < 30) health -= 15;
+    // Less harsh penalties
+    if (soil.ph < 4.0 || soil.ph > 8.0) health -= 10;
+    if (soil.humidity < 30 || soil.humidity > 95) health -= 8;
+    if (waterLevel < 25) health -= 10;
 
     return Math.max(0, Math.min(100, health));
   }, []);
@@ -42,32 +56,31 @@ export function useGameLogic() {
   const calculateScore = useCallback((soil: typeof initialSoilData, health: number, stage: number) => {
     let score = 0;
 
-    // Base score from plant health (more strict)
-    if (health >= 90) score += health * 3;
-    else if (health >= 70) score += health * 2;
-    else if (health >= 50) score += health * 1.5;
-    else score += health * 1;
+    // More generous base score from plant health
+    if (health >= 80) score += health * 3;
+    else if (health >= 60) score += health * 2.5;
+    else if (health >= 40) score += health * 2;
+    else score += health * 1.5;
 
-    // Organic matter (more important)
-    score += soil.organicMatter * 15;
+    // Organic matter (still important but more achievable)
+    score += soil.organicMatter * 12;
     
-    // Stage progression
-    score += stage * 50;
+    // Stage progression (more rewarding)
+    score += stage * 60;
 
-    // pH balance (more precise ranges)
-    if (soil.ph >= 5.8 && soil.ph <= 6.2) score += 40; // Perfect range
-    else if (soil.ph >= 5.5 && soil.ph <= 6.5) score += 20; // Good range
-    else if (soil.ph >= 5.0 && soil.ph <= 7.0) score += 5; // Acceptable range
-    else score -= 10; // Poor range
+    // More forgiving pH balance
+    if (soil.ph >= 5.0 && soil.ph <= 7.0) score += 30; // Good range
+    else if (soil.ph >= 4.5 && soil.ph <= 7.5) score += 15; // Acceptable range
+    else if (soil.ph >= 4.0 && soil.ph <= 8.0) score += 5; // Minimal range
 
-    // Nutrient balance (more strict)
-    if (soil.nitrogen >= 90 && soil.phosphorus >= 70 && soil.potassium >= 120) score += 50; // Perfect
-    else if (soil.nitrogen >= 80 && soil.phosphorus >= 60 && soil.potassium >= 100) score += 25; // Good
-    else if (soil.nitrogen >= 60 && soil.phosphorus >= 40 && soil.potassium >= 80) score += 10; // Acceptable
+    // More achievable nutrient balance
+    if (soil.nitrogen >= 70 && soil.phosphorus >= 50 && soil.potassium >= 90) score += 40; // Good
+    else if (soil.nitrogen >= 60 && soil.phosphorus >= 40 && soil.potassium >= 80) score += 25; // Acceptable
+    else if (soil.nitrogen >= 50 && soil.phosphorus >= 30 && soil.potassium >= 70) score += 10; // Minimal
     
-    // Temperature penalty/bonus
-    if (soil.temperature >= 16 && soil.temperature <= 20) score += 15; // Perfect range
-    else if (soil.temperature < 12 || soil.temperature > 25) score -= 15; // Poor range
+    // More forgiving temperature bonus/penalty
+    if (soil.temperature >= 12 && soil.temperature <= 25) score += 15; // Good range
+    else if (soil.temperature < 8 || soil.temperature > 30) score -= 10; // Only penalize extreme temperatures
 
     return Math.floor(score);
   }, []);
