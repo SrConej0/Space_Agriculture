@@ -48,17 +48,6 @@ export default function ScorePanel({ gameState }: ScorePanelProps) {
       </div>
 
       <div className="space-y-4">
-        <div className="bg-gray-800/50 rounded-lg p-4 border border-yellow-500/30">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-gray-300 flex items-center gap-2">
-              <Target className="w-4 h-4" />
-              Score
-            </span>
-            <span className="text-3xl font-bold text-yellow-400">{gameState.score}</span>
-          </div>
-          <div className="text-xs text-gray-500">Based on soil health and plant growth</div>
-        </div>
-
         <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-700/50">
           <div className="flex items-center gap-2 mb-3">
             <Award className="w-4 h-4 text-green-400" />
@@ -66,17 +55,17 @@ export default function ScorePanel({ gameState }: ScorePanelProps) {
             <span className="text-xs text-gray-500 ml-auto">{unlockedCount}/{achievements.length}</span>
           </div>
 
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-4 gap-1">
             {achievements.map((achievement) => (
               <div
                 key={achievement.id}
                 className={`
-                  relative aspect-square rounded-lg border-2
-                  flex items-center justify-center text-2xl
+                  relative aspect-square rounded-lg border
+                  flex items-center justify-center text-xl
                   transition-all duration-500
                   ${achievement.condition
-                    ? 'bg-green-900/50 border-green-500/50 scale-100'
-                    : 'bg-gray-800/30 border-gray-700/30 scale-95 grayscale opacity-50'}
+                    ? 'bg-green-900/50 border-green-500/50'
+                    : 'bg-gray-800/30 border-gray-700/30 grayscale opacity-50'}
                 `}
                 title={achievement.title}
               >
@@ -87,6 +76,17 @@ export default function ScorePanel({ gameState }: ScorePanelProps) {
               </div>
             ))}
           </div>
+        </div>
+
+        <div className="bg-gray-800/50 rounded-lg p-4 border border-yellow-500/30">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-gray-300 flex items-center gap-2">
+              <Target className="w-4 h-4" />
+              Score
+            </span>
+            <span className="text-3xl font-bold text-yellow-400">{gameState.score}</span>
+          </div>
+          <div className="text-xs text-gray-500">Based on soil health and plant growth</div>
         </div>
 
         <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-700/50">

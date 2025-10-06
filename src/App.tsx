@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import CosmicBackground from './components/CosmicBackground';
 import StoryIntro from './components/StoryIntro';
 import ProgressBar from './components/ProgressBar';
@@ -14,7 +14,14 @@ import { Rocket, BookOpen } from 'lucide-react';
 function App() {
   const [gameStarted, setGameStarted] = useState(false);
   const [showTutorial, setShowTutorial] = useState(false);
+  const [showEndModal, setShowEndModal] = useState(false);
   const { gameState, daysInStage, isProcessing, handleAction, handleEnvironmentalChange } = useGameLogic();
+
+  useEffect(() => {
+    if (gameState.stage === 5) {
+      setShowEndModal(true);
+    }
+  }, [gameState.stage]);
 
   if (!gameStarted) {
     return (
@@ -80,7 +87,7 @@ function App() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2 space-y-6">
             <div className="bg-gradient-to-br from-gray-900/90 to-gray-800/90 backdrop-blur-sm border border-green-500/30 rounded-lg shadow-2xl overflow-hidden hover:border-green-400/50 transition-colors">
-              <div className="h-96 relative bg-gradient-to-b from-sky-900/30 via-blue-900/20 to-gray-900 border-b border-green-500/30">
+              <div className="h-[32rem] relative bg-gradient-to-b from-sky-900/30 via-blue-900/20 to-gray-900 border-b border-green-500/30">
                 <SoilLayer organicMatter={gameState.soil.organicMatter} health={gameState.plantHealth} />
                 <PlantVisualization stage={gameState.stage} health={gameState.plantHealth} />
                 <EnvironmentalEffects 
@@ -122,86 +129,97 @@ function App() {
           </div>
         </div>
 
-        {gameState.stage === 5 && (
-          <div className={`mt-8 backdrop-blur-sm border-2 rounded-lg p-6 shadow-2xl text-center animate-slideUp ${
-            gameState.score >= 800 && gameState.plantHealth >= 85 
-              ? 'bg-gradient-to-br from-green-900/90 to-green-800/90 border-green-500/50'
-              : gameState.score >= 600 && gameState.plantHealth >= 70
-              ? 'bg-gradient-to-br from-yellow-900/90 to-yellow-800/90 border-yellow-500/50'
-              : gameState.score >= 400 && gameState.plantHealth >= 50
-              ? 'bg-gradient-to-br from-orange-900/90 to-orange-800/90 border-orange-500/50'
-              : 'bg-gradient-to-br from-red-900/90 to-red-800/90 border-red-500/50'
-          }`}>
-            <h2 className={`text-3xl font-bold mb-4 ${
+        {/* Modal de fin de juego como alerta automática */}
+        {showEndModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center">
+            <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
+            <div className={`relative max-w-2xl w-full mx-4 rounded-lg border-2 p-6 shadow-2xl text-center animate-slideUp ${
               gameState.score >= 800 && gameState.plantHealth >= 85 
-                ? 'text-green-400'
+                ? 'bg-gradient-to-br from-green-900/90 to-green-800/90 border-green-500/50'
                 : gameState.score >= 600 && gameState.plantHealth >= 70
-                ? 'text-yellow-400'
+                ? 'bg-gradient-to-br from-yellow-900/90 to-yellow-800/90 border-yellow-500/50'
                 : gameState.score >= 400 && gameState.plantHealth >= 50
-                ? 'text-orange-400'
-                : 'text-red-400'
+                ? 'bg-gradient-to-br from-orange-900/90 to-orange-800/90 border-orange-500/50'
+                : 'bg-gradient-to-br from-red-900/90 to-red-800/90 border-red-500/50'
             }`}>
-              {gameState.score >= 800 && gameState.plantHealth >= 85 
-                ? 'Mission Completed Perfectly!'
-                : gameState.score >= 600 && gameState.plantHealth >= 70
-                ? 'Almost There!'
-                : gameState.score >= 400 && gameState.plantHealth >= 50
-                ? 'Mediocre Result'
-                : 'Mission Failed'}
-            </h2>
-            <p className="text-gray-300 text-lg mb-4">
-              {gameState.score >= 800 && gameState.plantHealth >= 85 
-                ? 'You have successfully completed the full growth cycle with exceptional sustainable practices.'
-                : gameState.score >= 600 && gameState.plantHealth >= 70
-                ? 'You achieved good growth, but there is room for improvement in your agricultural techniques.'
-                : gameState.score >= 400 && gameState.plantHealth >= 50
-                ? 'The plant survived, but your techniques need much work.'
-                : 'The plant failed to develop properly. You need to study more about sustainable agriculture.'}
-            </p>
-            
-            {/* Detailed feedback section */}
-            <div className="bg-gray-800/50 rounded-lg p-4 mb-4 text-left">
-              <h3 className="text-lg font-semibold text-blue-400 mb-3">Performance Analysis:</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                <div>
-                  <h4 className="font-semibold text-green-400 mb-2">What you did well:</h4>
-                  <ul className="space-y-1 text-gray-300">
-                    {gameState.plantHealth >= 70 && <li>✓ Maintained good plant health ({gameState.plantHealth.toFixed(0)}%)</li>}
-                    {gameState.soil.ph >= 5.0 && gameState.soil.ph <= 7.0 && <li>✓ Kept pH in optimal range ({gameState.soil.ph.toFixed(1)})</li>}
-                    {gameState.soil.organicMatter >= 2 && <li>✓ Built up organic matter ({gameState.soil.organicMatter.toFixed(1)}%)</li>}
-                    {gameState.waterLevel >= 50 && <li>✓ Managed water levels well ({gameState.waterLevel.toFixed(0)}%)</li>}
-                    {gameState.soil.nitrogen >= 60 && <li>✓ Adequate nitrogen levels ({gameState.soil.nitrogen.toFixed(0)})</li>}
-                    {gameState.daysElapsed <= 25 && <li>✓ Efficient time management ({gameState.daysElapsed} days)</li>}
-                  </ul>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-red-400 mb-2">Areas for improvement:</h4>
-                  <ul className="space-y-1 text-gray-300">
-                    {gameState.plantHealth < 70 && <li>× Plant health too low ({gameState.plantHealth.toFixed(0)}% - aim for 70%+)</li>}
-                    {(gameState.soil.ph < 5.0 || gameState.soil.ph > 7.0) && <li>× pH out of range ({gameState.soil.ph.toFixed(1)} - aim for 5.0-7.0)</li>}
-                    {gameState.soil.organicMatter < 2 && <li>× Low organic matter ({gameState.soil.organicMatter.toFixed(1)}% - aim for 2%+)</li>}
-                    {gameState.waterLevel < 50 && <li>× Insufficient watering ({gameState.waterLevel.toFixed(0)}% - aim for 50%+)</li>}
-                    {gameState.soil.nitrogen < 60 && <li>× Low nitrogen levels ({gameState.soil.nitrogen.toFixed(0)} - aim for 60+)</li>}
-                    {gameState.soil.phosphorus < 40 && <li>× Low phosphorus levels ({gameState.soil.phosphorus.toFixed(0)} - aim for 40+)</li>}
-                    {gameState.soil.potassium < 80 && <li>× Low potassium levels ({gameState.soil.potassium.toFixed(0)} - aim for 80+)</li>}
-                    {gameState.daysElapsed > 30 && <li>× Took too long ({gameState.daysElapsed} days - aim for under 30)</li>}
-                  </ul>
+              <h2 className={`text-3xl font-bold mb-4 ${
+                gameState.score >= 800 && gameState.plantHealth >= 85 
+                  ? 'text-green-400'
+                  : gameState.score >= 600 && gameState.plantHealth >= 70
+                  ? 'text-yellow-400'
+                  : gameState.score >= 400 && gameState.plantHealth >= 50
+                  ? 'text-orange-400'
+                  : 'text-red-400'
+              }`}>
+                {gameState.score >= 800 && gameState.plantHealth >= 85 
+                  ? 'Mission Completed Perfectly!'
+                  : gameState.score >= 600 && gameState.plantHealth >= 70
+                  ? 'Almost There!'
+                  : gameState.score >= 400 && gameState.plantHealth >= 50
+                  ? 'Mediocre Result'
+                  : 'Mission Failed'}
+              </h2>
+              <p className="text-gray-300 text-lg mb-4">
+                {gameState.score >= 800 && gameState.plantHealth >= 85 
+                  ? 'You have successfully completed the full growth cycle with exceptional sustainable practices.'
+                  : gameState.score >= 600 && gameState.plantHealth >= 70
+                  ? 'You achieved good growth, but there is room for improvement in your agricultural techniques.'
+                  : gameState.score >= 400 && gameState.plantHealth >= 50
+                  ? 'The plant survived, but your techniques need much work.'
+                  : 'The plant failed to develop properly. You need to study more about sustainable agriculture.'}
+              </p>
+
+              <div className="bg-gray-800/50 rounded-lg p-4 mb-4 text-left">
+                <h3 className="text-lg font-semibold text-blue-400 mb-3">Performance Analysis:</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                  <div>
+                    <h4 className="font-semibold text-green-400 mb-2">What you did well:</h4>
+                    <ul className="space-y-1 text-gray-300">
+                      {gameState.plantHealth >= 70 && <li>✓ Maintained good plant health ({gameState.plantHealth.toFixed(0)}%)</li>}
+                      {gameState.soil.ph >= 5.0 && gameState.soil.ph <= 7.0 && <li>✓ Kept pH in optimal range ({gameState.soil.ph.toFixed(1)})</li>}
+                      {gameState.soil.organicMatter >= 2 && <li>✓ Built up organic matter ({gameState.soil.organicMatter.toFixed(1)}%)</li>}
+                      {gameState.waterLevel >= 50 && <li>✓ Managed water levels well ({gameState.waterLevel.toFixed(0)}%)</li>}
+                      {gameState.soil.nitrogen >= 60 && <li>✓ Adequate nitrogen levels ({gameState.soil.nitrogen.toFixed(0)})</li>}
+                      {gameState.daysElapsed <= 25 && <li>✓ Efficient time management ({gameState.daysElapsed} days)</li>}
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-red-400 mb-2">Areas for improvement:</h4>
+                    <ul className="space-y-1 text-gray-300">
+                      {gameState.plantHealth < 70 && <li>× Plant health too low ({gameState.plantHealth.toFixed(0)}% - aim for 70%+)</li>}
+                      {(gameState.soil.ph < 5.0 || gameState.soil.ph > 7.0) && <li>× pH out of range ({gameState.soil.ph.toFixed(1)} - aim for 5.0-7.0)</li>}
+                      {gameState.soil.organicMatter < 2 && <li>× Low organic matter ({gameState.soil.organicMatter.toFixed(1)}% - aim for 2%+)</li>}
+                      {gameState.waterLevel < 50 && <li>× Insufficient watering ({gameState.waterLevel.toFixed(0)}% - aim for 50%+)</li>}
+                      {gameState.soil.nitrogen < 60 && <li>× Low nitrogen levels ({gameState.soil.nitrogen.toFixed(0)} - aim for 60+)</li>}
+                      {gameState.soil.phosphorus < 40 && <li>× Low phosphorus levels ({gameState.soil.phosphorus.toFixed(0)} - aim for 40+)</li>}
+                      {gameState.soil.potassium < 80 && <li>× Low potassium levels ({gameState.soil.potassium.toFixed(0)} - aim for 80+)</li>}
+                      {gameState.daysElapsed > 30 && <li>× Took too long ({gameState.daysElapsed} days - aim for under 30)</li>}
+                    </ul>
+                  </div>
                 </div>
               </div>
+              <p className={`text-2xl font-bold ${
+                gameState.score >= 800 ? 'text-green-400' :
+                gameState.score >= 600 ? 'text-yellow-400' :
+                gameState.score >= 400 ? 'text-orange-400' : 'text-red-400'
+              }`}>
+                Final Score: {gameState.score}
+              </p>
+              <p className="text-gray-400 mt-2">
+                {gameState.score >= 600 
+                  ? 'Your knowledge of sustainable agriculture will help feed humanity in 2050.'
+                  : 'Study more about soil management, nutrient balance, and sustainable farming practices.'}
+              </p>
+
+              <div className="mt-6">
+                <button
+                  onClick={() => window.location.reload()}
+                  className="inline-flex items-center px-5 py-2 rounded-lg bg-red-600/80 hover:bg-red-600 text-white font-semibold border border-red-500/70 shadow focus:outline-none focus:ring-2 focus:ring-red-400"
+                >
+                  Finalizar
+                </button>
+              </div>
             </div>
-            
-            <p className={`text-2xl font-bold ${
-              gameState.score >= 800 ? 'text-green-400' :
-              gameState.score >= 600 ? 'text-yellow-400' :
-              gameState.score >= 400 ? 'text-orange-400' : 'text-red-400'
-            }`}>
-              Final Score: {gameState.score}
-            </p>
-            <p className="text-gray-400 mt-2">
-              {gameState.score >= 600 
-                ? 'Your knowledge of sustainable agriculture will help feed humanity in 2050.'
-                : 'Study more about soil management, nutrient balance, and sustainable farming practices.'}
-            </p>
           </div>
         )}
       </div>

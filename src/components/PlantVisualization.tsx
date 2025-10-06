@@ -36,7 +36,7 @@ export default function PlantVisualization({ stage, health }: PlantVisualization
   const healthColor = health > 80 ? 'green-500' : health > 50 ? 'green-400' : health > 30 ? 'yellow-500' : 'red-400';
 
   return (
-    <div className="relative w-full h-full flex items-end justify-center pb-12">
+    <div className="relative w-full h-full flex items-end justify-center pb-4">
       {/* Ambiente mejorado */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {/* Nubes flotantes */}
@@ -111,7 +111,7 @@ export default function PlantVisualization({ stage, health }: PlantVisualization
       <div
         className="relative transition-all duration-1000 ease-out"
         style={{
-          transform: `scale(${scale})`,
+          transform: `translateY(-50px) scale(${scale})`,
           opacity: scale
         }}
       >
@@ -155,10 +155,10 @@ export default function PlantVisualization({ stage, health }: PlantVisualization
                   key={`flower-${i}`}
                   className="absolute text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.6)]"
                   style={{
-                    width: `${plantSize * 0.4}px`,
-                    height: `${plantSize * 0.4}px`,
+                    width: `${plantSize * 0.44}px`,
+                    height: `${plantSize * 0.44}px`,
                     left: `${-20 + i * 20}px`,
-                    top: `${-plantSize * 0.3 + i * 8}px`, // Moved much higher above the stem
+                    top: `${-plantSize * 0.2 + i * 8}px`, // Slightly lower above the stem
                     animation: `pulse ${2 + i * 0.5}s ease-in-out infinite`,
                     animationDelay: `${i * 0.3}s`,
                     zIndex: 10 // Ensure flowers appear above other elements
@@ -215,7 +215,7 @@ export default function PlantVisualization({ stage, health }: PlantVisualization
         )}
 
         {stage >= 3 && (
-          <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2">
+          <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2">
             {Array.from({ length: stage === 3 ? 5 : stage === 4 ? 3 : 8 }).map((_, i) => {
               // Create varied positioning for potatoes with more at higher levels
               let positions;
@@ -223,30 +223,30 @@ export default function PlantVisualization({ stage, health }: PlantVisualization
               if (stage === 3) {
                 // Stage 3: 5 potatoes total (3 original + 2 higher)
                 positions = [
-                  { x: -20, y: 0 },    // Left, ground level
-                  { x: 10, y: -8 },    // Right, slightly higher
-                  { x: -5, y: -4 },    // Center, medium height
-                  { x: -15, y: -15 },  // Higher left
-                  { x: 15, y: -18 }    // Higher right
+                  { x: -20, y: 2 },    // Left, ground level slightly below
+                  { x: 10, y: -6 },    // Right, slightly higher
+                  { x: -5, y: -2 },    // Center, medium height
+                  { x: -15, y: -13 },  // Higher left
+                  { x: 15, y: -16 }    // Higher right
                 ];
               } else if (stage === 4) {
                 // Stage 4: 3 potatoes (original configuration)
                 positions = [
-                  { x: -20, y: 0 },    // Left, ground level
-                  { x: 10, y: -8 },    // Right, slightly higher
-                  { x: -5, y: -4 }     // Center, medium height
+                  { x: -20, y: 2 },    // Left, ground level slightly below
+                  { x: 10, y: -6 },    // Right, slightly higher
+                  { x: -5, y: -2 }     // Center, medium height
                 ];
               } else {
                 // Stage 5: 8 potatoes total (5 original + 3 higher)
                 positions = [
-                  { x: -20, y: 0 },    // Left, ground level
-                  { x: 10, y: -8 },    // Right, slightly higher
-                  { x: -5, y: -4 },    // Center, medium height
-                  { x: 25, y: -2 },    // Far right, slightly elevated
-                  { x: -35, y: -6 },   // Far left, higher
-                  { x: 0, y: -20 },    // Center top
-                  { x: -25, y: -22 },  // Left top
-                  { x: 20, y: -25 }    // Right top
+                  { x: -20, y: 2 },    // Left, ground level slightly below
+                  { x: 10, y: -6 },    // Right, slightly higher
+                  { x: -5, y: -2 },    // Center, medium height
+                  { x: 25, y: 0 },     // Far right, slightly elevated
+                  { x: -35, y: -4 },   // Far left, higher
+                  { x: 0, y: -18 },    // Center top
+                  { x: -25, y: -20 },  // Left top
+                  { x: 20, y: -23 }    // Right top
                 ];
               }
               
@@ -269,7 +269,7 @@ export default function PlantVisualization({ stage, health }: PlantVisualization
         )}
 
         <div
-          className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-32 h-1 bg-gradient-to-r from-transparent via-green-500/50 to-transparent rounded-full blur-sm"
+          className="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-32 h-1 bg-gradient-to-r from-transparent via-green-500/50 to-transparent rounded-full blur-sm"
         />
       </div>
 

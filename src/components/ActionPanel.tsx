@@ -122,10 +122,10 @@ export default function ActionPanel({ gameState, onAction, disabled }: ActionPan
   ];
 
   return (
-    <div className="bg-gradient-to-br from-gray-900/90 to-gray-800/90 backdrop-blur-sm border border-green-500/30 rounded-lg p-6 shadow-2xl">
-      <h3 className="text-xl font-bold text-green-400 mb-4">Agricultural Actions</h3>
+    <div className="bg-gradient-to-br from-gray-900/90 to-gray-800/90 backdrop-blur-sm border border-green-500/30 rounded-lg p-4 shadow-2xl">
+      <h3 className="text-lg font-bold text-green-400 mb-3">Agricultural Actions</h3>
 
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-2 gap-2">
         {actions.map((action) => {
           const Icon = action.icon;
           return (
@@ -136,11 +136,11 @@ export default function ActionPanel({ gameState, onAction, disabled }: ActionPan
                 className={`
                   relative overflow-hidden w-full
                   bg-gradient-to-br ${action.color}
-                  border-2 ${action.borderColor} ${action.hoverColor}
-                  rounded-lg p-4
+                  border ${action.borderColor} ${action.hoverColor}
+                  rounded-md p-3
                   transition-all duration-300
-                  ${disabled ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105 hover:shadow-xl cursor-pointer'}
-                  ${selectedAction === action.id ? 'scale-95 ring-4 ring-white/50' : ''}
+                  ${disabled ? 'opacity-50 cursor-not-allowed' : 'hover:scale-[1.03] hover:shadow-lg cursor-pointer'}
+                  ${selectedAction === action.id ? 'scale-95 ring-2 ring-white/40' : ''}
                   group
                 `}
               >
@@ -160,10 +160,10 @@ export default function ActionPanel({ gameState, onAction, disabled }: ActionPan
                   </div>
                 )}
 
-                <div className="relative z-10 flex flex-col items-center text-center gap-2">
-                  <Icon className={`w-6 h-6 text-white ${selectedAction === action.id ? 'animate-bounce' : ''}`} />
-                  <div className="text-white font-semibold text-sm">{action.label}</div>
-                  <div className="text-xs text-white/80 leading-tight">{action.description}</div>
+                <div className="relative z-10 flex flex-col items-center text-center gap-1.5">
+                  <Icon className={`w-5 h-5 text-white ${selectedAction === action.id ? 'animate-bounce' : ''}`} />
+                  <div className="text-white font-semibold text-xs">{action.label}</div>
+                  <div className="text-[11px] text-white/80 leading-tight">{action.description}</div>
                 </div>
 
                 <div className="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-all duration-300" />
@@ -180,12 +180,12 @@ export default function ActionPanel({ gameState, onAction, disabled }: ActionPan
         })}
       </div>
 
-      <div className="mt-4 p-4 bg-gradient-to-r from-blue-900/30 to-cyan-900/30 border border-blue-500/30 rounded-lg">
-        <div className="flex items-start gap-3">
-          <Zap className="w-5 h-5 text-yellow-400 mt-0.5 flex-shrink-0" />
+      <div className="mt-3 p-3 bg-gradient-to-r from-blue-900/30 to-cyan-900/30 border border-blue-500/30 rounded-md">
+        <div className="flex items-start gap-2">
+          <Zap className="w-4 h-4 text-yellow-400 mt-0.5 flex-shrink-0" />
           <div>
-            <div className="text-sm text-blue-300 font-semibold mb-1">Pro Tip</div>
-            <div className="text-xs text-gray-300 leading-relaxed">
+            <div className="text-xs text-blue-300 font-semibold mb-1">Pro Tip</div>
+            <div className="text-[11px] text-gray-300 leading-relaxed">
               Each action affects soil conditions and plant health. Click the
               <Info className="inline w-3 h-3 mx-1 text-blue-400" />
               icons to learn more about each action's effects and optimal usage timing.
