@@ -50,7 +50,7 @@ This is a web game developed in **React + TypeScript** that realistically and ed
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/your-username/plant-growing-game.git
+   git clone https://github.com/SrConej0/Space_Agriculture.git
    cd plant-growing-game
    ```
 
