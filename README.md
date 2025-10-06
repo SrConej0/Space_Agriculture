@@ -2,6 +2,30 @@
 
 An interactive educational game about sustainable agriculture where players learn to grow plants from seeds to harvest, managing factors like soil pH, nutrients, water, and environmental conditions.
 
+## 🚀 Instalación rápida
+
+Requisitos:
+- Node.js 16+ y npm
+- Git
+
+Pasos:
+1. Clona el repositorio
+   ```bash
+   git clone https://github.com/SrConej0/Space_Agriculture.git
+   cd Space_Agriculture
+   ```
+2. Instala dependencias
+   ```bash
+   npm install
+   ```
+3. Arranca en desarrollo
+   ```bash
+   npm run dev
+   ```
+4. Abre en el navegador
+   - http://localhost:5173/ (o el puerto mostrado en la terminal)
+
+
 ## 🎮 Project Description
 
 This is a web game developed in **React + TypeScript** that realistically and educationally simulates the plant growing process. Players must make decisions about plant care, learning about:
@@ -41,6 +65,8 @@ This is a web game developed in **React + TypeScript** that realistically and ed
 
 ## 🚀 Installation and Setup
 
+Para instalación inmediata, usa la sección “Instalación rápida” al inicio.
+
 ### Prerequisites
 - **Node.js** (version 16 or higher)
 - **npm** or **yarn**
@@ -51,7 +77,7 @@ This is a web game developed in **React + TypeScript** that realistically and ed
 1. **Clone the repository**
    ```bash
    git clone https://github.com/SrConej0/Space_Agriculture.git
-   cd plant-growing-game
+   cd Space_Agriculture
    ```
 
 2. **Install dependencies**
@@ -65,7 +91,7 @@ This is a web game developed in **React + TypeScript** that realistically and ed
    ```
 
 4. **Open in browser**
-   - The game will be available at: `http://localhost:5173/`
+   - The game will be available at: `http://localhost:5173/` (or the port printed in the terminal)
 
 ### Available Commands
 
