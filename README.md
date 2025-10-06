@@ -1,168 +1,67 @@
-# 🌱 Plant Growing Game
+# Space Agriculture Simulator
 
-An interactive educational game about sustainable agriculture where players learn to grow plants from seeds to harvest, managing factors like soil pH, nutrients, water, and environmental conditions.
+An interactive React + TypeScript game that teaches sustainable agriculture by guiding a potato crop from soil preparation to harvest. Manage soil pH and nutrients, irrigation, temperature, and weather to keep plant health high and complete the mission.
 
-## 🚀 Instalación rápida
+## Features
+- Action panel: irrigate, fertilize (N-P-K), add compost, adjust pH, cool/warm soil
+- Real-time indicators: pH, humidity, temperature, plant health, nutrient balance
+- Growth stages with progress tracking and performance analysis at the end
+- Environmental effects: day/night cycle and occasional rain
+- Smooth visuals and subtle audio feedback for actions
 
-Requisitos:
-- Node.js 16+ y npm
-- Git
+## Tech Stack
+- React 18 + TypeScript
+- Tailwind CSS for styling
+- Vite for development and build
+- Lucide React icons
 
-Pasos:
-1. Clona el repositorio
+## Quickstart
+1. Clone the repository
    ```bash
    git clone https://github.com/SrConej0/Space_Agriculture.git
    cd Space_Agriculture
    ```
-2. Instala dependencias
+2. Install dependencies
    ```bash
    npm install
    ```
-3. Arranca en desarrollo
+3. Run the development server
    ```bash
    npm run dev
    ```
-4. Abre en el navegador
-   - http://localhost:5173/ (o el puerto mostrado en la terminal)
+4. Open the app in your browser at the URL shown in the terminal (e.g., http://localhost:5173/)
 
-
-## 🎮 Project Description
-
-This is a web game developed in **React + TypeScript** that realistically and educationally simulates the plant growing process. Players must make decisions about plant care, learning about:
-
-- **Soil management**: pH, nutrients (N-P-K), organic matter
-- **Irrigation**: Water levels and humidity
-- **Environmental conditions**: Temperature and weather effects
-- **Growth stages**: From seed to harvest with potatoes and flowers
-
-## ✨ Main Features
-
-### 🎯 Game Mechanics
-- **5 progressive growth stages**
-- **Scoring system** based on plant health
-- **Dynamic environmental effects** (rain, sun, wind)
-- **Detailed educational feedback** at game end
-
-### 🎨 Visualization
-- **Smooth animations** with CSS and JavaScript
-- **Realistic visual representation** of plants, potatoes, and flowers
-- **Particle effects** and environmental elements
-- **Responsive interface** adaptable to different screens
-
-### 📊 Management System
-- **Action panel** for watering, fertilizing, and adjustments
-- **Real-time indicators** of health and conditions
-- **Visual progress** with bars and metrics
-- **Performance analysis** upon game completion
-
-## 🛠️ Technologies Used
-
-- **Frontend**: React 18 + TypeScript
-- **Styling**: Tailwind CSS
-- **Icons**: Lucide React
-- **Build Tool**: Vite
-- **Linting**: ESLint
-
-## 🚀 Installation and Setup
-
-Para instalación inmediata, usa la sección “Instalación rápida” al inicio.
-
-### Prerequisites
-- **Node.js** (version 16 or higher)
-- **npm** or **yarn**
-- **Git**
-
-### Steps to run the project
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/SrConej0/Space_Agriculture.git
-   cd Space_Agriculture
-   ```
-
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
-
-3. **Run in development mode**
-   ```bash
-   npm run dev
-   ```
-
-4. **Open in browser**
-   - The game will be available at: `http://localhost:5173/` (or the port printed in the terminal)
-
-### Available Commands
-
+## Scripts
 ```bash
-# Development
-npm run dev          # Start development server
-
-# Production
-npm run build        # Build for production
-npm run preview      # Preview production build
-
-# Code quality
-npm run lint         # Run ESLint
-npm run typecheck    # Check TypeScript types
+npm run dev       # Start development server
+npm run build     # Build for production
+npm run preview   # Preview the production build
+npm run lint      # Run ESLint
+npm run typecheck # Check TypeScript types
 ```
 
-## 🎯 How to Play
+## How to Play
+- Keep plant health above 80% by balancing soil conditions
+- Use action buttons wisely; each affects soil parameters
+- Monitor indicators for pH (5.5–6.5), humidity (60–80%), and temperature (15–22°C)
+- Advance through stages via consistent management; review performance analysis at the end
 
-1. **Start**: Begin with a seed at stage 1
-2. **Management**: Use the action panel to:
-   - 💧 Water the plant
-   - 🧪 Add fertilizers (N-P-K)
-   - 🌿 Add compost
-   - ⚖️ Adjust soil pH
-   - 🌡️ Control temperature
-3. **Monitoring**: Watch health and condition indicators
-4. **Progress**: Advance through 5 growth stages
-5. **Harvest**: Complete the cycle and receive detailed feedback
-
-## 📁 Project Structure
-
+## Project Structure
 ```
 src/
-├── components/          # React components
-│   ├── PlantVisualization.tsx    # Main plant visualization
-│   ├── ActionPanel.tsx           # Player action panel
-│   ├── IndicatorPanel.tsx        # Status indicators
-│   ├── ScorePanel.tsx            # Score panel
-│   └── ...
-├── hooks/              # Custom hooks
-│   └── useGameLogic.ts           # Main game logic
-├── types/              # TypeScript type definitions
-│   └── game.ts                   # Game types
-├── data/               # Game data
-│   └── growthStages.ts           # Stage configuration
-└── ...
+├── components/      # UI components (actions, indicators, visuals)
+├── hooks/           # Game logic (useGameLogic)
+├── data/            # Growth stages and initial/optimal soil data
+├── types/           # TypeScript definitions
+└── App.tsx          # Main application entry
 ```
 
-## 🎓 Educational Value
-
-This game teaches important concepts of sustainable agriculture:
-- **Soil chemistry** and nutrient balance
-- **Water management** and conservation
-- **Plant growth cycles**
-- **Environmental factors** affecting crops
-- **Decision making** in agriculture
-
-## 🤝 Contributing
-
-Contributions are welcome! If you want to improve the game:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/new-feature`)
-3. Commit your changes (`git commit -m 'Add new feature'`)
-4. Push to the branch (`git push origin feature/new-feature`)
+## Contributing
+1. Fork the repo
+2. Create a feature branch: `git checkout -b feature/your-feature`
+3. Commit changes: `git commit -m "feat: add your feature"`
+4. Push: `git push origin feature/your-feature`
 5. Open a Pull Request
 
-## 📄 License
-
-This project is under the MIT License. See the `LICENSE` file for more details.
-
----
-
-**Enjoy learning about sustainable agriculture! 🌱🎮**
+## License
+MIT License. See `LICENSE` for details.
