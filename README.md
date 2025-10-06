@@ -1,145 +1,163 @@
-# 🌌 Simulador de Agricultura Espacial
+# 🌌 Space Agriculture Simulator
 
 [![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=white)](https://react.dev/) [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/) [![Vite](https://img.shields.io/badge/Vite-5-646CFF?logo=vite&logoColor=white)](https://vitejs.dev/) [![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-3-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-Aprende agricultura sostenible de forma divertida: gestiona pH del suelo, nutrientes (N-P-K), riego, temperatura y clima para llevar un cultivo de papa desde la preparación del suelo hasta la cosecha en un entorno espacial futurista.
+A learning-by-playing web game where you balance soil pH, nutrients (N-P-K), irrigation, temperature, and weather to grow a sustainable potato crop from soil prep to harvest in a futuristic space setting.
 
 ---
 
-## 🧭 Índice
-- Resumen
-- Capturas
-- Características
-- Mecánica del juego
-- Acciones y efectos
-- Indicadores y rangos óptimos
-- Efectos ambientales
-- Instalación
+## 🧭 Table of Contents
+- Overview
+- Screenshots (placeholders)
+- Features
+- Gameplay Flow (diagram)
+- Architecture (diagram)
+- Component Responsibilities
+- Tech Stack
+- Installation
 - Scripts
-- Cómo jugar (tips)
-- Arquitectura
-- Valor educativo
+- How to Play (tips)
+- Educational Value
 - Roadmap
 - FAQ
-- Contribuir
-- Licencia
+- Contributing
+- License
 
 ---
 
-## ✨ Resumen
-Este proyecto es un juego web desarrollado con React + TypeScript. El objetivo es mantener la salud de la planta por encima del 80% equilibrando las condiciones del suelo y el ambiente, avanzando por etapas de crecimiento hasta completar la misión.
+## ✨ Overview
+Space Agriculture Simulator teaches the fundamentals of sustainable agriculture through interactive mechanics and clear feedback. Your goal: keep plant health above 80% by maintaining soil and environmental conditions within optimal ranges and progress through all growth stages.
 
-## 📸 Capturas
-Puedes ejecutar el proyecto y tomar tus propias capturas. Sugerencia: añade GIFs del ciclo de crecimiento y el panel de acciones para ilustrar la dinámica.
+## 📸 Screenshots (placeholders)
+- Add GIFs of the growth cycle and the action panel interactions
+- Include a screenshot of indicators (pH, humidity, temperature, health)
 
-## 🚀 Características
-- Panel de acciones: regar, fertilizar (N-P-K), compost, ajustar pH, enfriar/templar suelo
-- Indicadores en tiempo real: pH, humedad, temperatura, salud, balance de nutrientes
-- Etapas de crecimiento con barra de progreso y análisis final del desempeño
-- Efectos ambientales: ciclo día/noche y lluvia ocasional
-- Visuales suaves, partículas sutiles y feedback de audio en acciones
+## 🚀 Features
+- Action panel: irrigate, fertilize (N-P-K), add compost, adjust pH, cool/warm soil
+- Real-time indicators: pH, humidity, temperature, plant health, nutrient balance
+- Growth stages with progress tracking and end-of-game performance analysis
+- Environmental effects: day/night cycle and occasional rain
+- Smooth visuals, subtle particle effects, and audio feedback
 
-## 🎮 Mecánica del juego
-Flujo principal:
-1) Observar indicadores → 2) Ejecutar acciones → 3) Evaluar cambios → 4) Mantener rangos → 5) Avanzar etapas → 6) Analizar resultados
+## 🎮 Gameplay Flow
+High-level loop:
+1) Observe indicators → 2) Choose action → 3) Soil adjusts → 4) Plant health responds → 5) Keep optimal ranges → 6) Advance stage → 7) Review results
 
-Diagrama simplificado:
+Flow diagram:
+```mermaid
+flowchart LR
+    A[Observe Indicators] --> B[Choose Action]
+    B --> C[Apply Effects to Soil]
+    C --> D[Update Game State]
+    D --> E[Evaluate Plant Health]
+    E --> F{In Optimal Range?}
+    F -- Yes --> G[Advance Growth Stage]
+    F -- No --> A
+    G --> H[Final Performance Analysis]
 ```
-[Indicadores] → [Acciones] → [Ajustes del suelo] → [Estado de la planta]
-        ↑                                      ↓
-        └──────────── Ciclo de feedback ───────┘
+
+## 🧱 Architecture
+Core architecture focuses on a single source of truth for state and stateless visual components.
+
+```mermaid
+graph TD
+    A[App.tsx] --> B[useGameLogic (hook)]
+    B --> C[ActionPanel.tsx]
+    B --> D[IndicatorPanel.tsx]
+    B --> E[PlantVisualization.tsx]
+    B --> F[ProgressBar.tsx]
+    B --> G[ScorePanel.tsx]
+    A --> H[EnvironmentalEffects.tsx]
+    A --> I[EducationalTooltip.tsx]
+    B --> J[data/growthStages.ts]
+    B --> K[types/game.ts]
 ```
 
-## 🧪 Acciones y efectos
-- Regar: aumenta humedad, puede enfriar el suelo ligeramente
-- Añadir Nitrógeno (N): mejora crecimiento vegetativo; exceso puede bajar pH
-- Añadir Fósforo (P): apoya desarrollo de raíces y floración
-- Añadir Potasio (K): mejora resistencia y salud general
-- Añadir Compost: incrementa materia orgánica y estabiliza pH
-- Ajustar pH: corrige acidez/alcalinidad del suelo
-- Enfriar/Templar suelo: modifica temperatura para estar en rango óptimo
+- App.tsx orchestrates layout and passes state/handlers from the main hook
+- useGameLogic holds core state, side-effects, and action handlers
+- Components render UI based on state and emit user events
+- Data and Types modules provide growth config and type safety
 
-## 📊 Indicadores y rangos óptimos
-- pH: 5.5 – 6.5
-- Humedad: 60% – 80%
-- Temperatura: 15°C – 22°C
-- Salud de la planta: procura mantenerla ≥ 80%
-- Balance de nutrientes: evitar extremos; buscar equilibrio N-P-K
+## 🧩 Component Responsibilities
+- ActionPanel: trigger actions (water, N-P-K, compost, pH, temperature)
+- IndicatorPanel: live metrics for soil and plant
+- PlantVisualization: visual growth representation by stage
+- ProgressBar: stage and day progress
+- ScorePanel: end-game summary and performance insights
+- EnvironmentalEffects: day/night overlay and rain effects
+- EducationalTooltip: contextual tips and learning snippets
 
-## 🌦️ Efectos ambientales
-- Día/Noche: cambia la iluminación y el ambiente de forma cíclica
-- Lluvia: aumenta humedad durante intervalos aleatorios y afecta la temperatura
+References:
+- <mcfile name="App.tsx" path="D:\danie\Bolt\Bolt\src\App.tsx"></mcfile>
+- <mcfile name="useGameLogic.ts" path="D:\danie\Bolt\Bolt\src\hooks\useGameLogic.ts"></mcfile>
+- <mcfile name="growthStages.ts" path="D:\danie\Bolt\Bolt\src\data\growthStages.ts"></mcfile>
+- <mcfile name="game.ts" path="D:\danie\Bolt\Bolt\src\types\game.ts"></mcfile>
 
-## 🛠️ Instalación
-Requisitos: Node.js 16+, npm y Git
+## 🛠️ Tech Stack
+- React 18 + TypeScript
+- Tailwind CSS
+- Vite (dev/build)
+- Lucide React icons
 
-1. Clonar el repositorio
+## ⚙️ Installation
+Requirements: Node.js 16+, npm, Git
+
+1. Clone the repository
 ```bash
 git clone https://github.com/SrConej0/Space_Agriculture.git
 cd Space_Agriculture
 ```
-2. Instalar dependencias
+2. Install dependencies
 ```bash
 npm install
 ```
-3. Ejecutar en desarrollo
+3. Run development server
 ```bash
 npm run dev
 ```
-4. Abrir en el navegador
-- Visita la URL mostrada en la terminal (p. ej. http://localhost:5173/)
+4. Open in browser at the URL printed in the terminal (e.g., http://localhost:5173/)
 
 ## 📜 Scripts
 ```bash
-npm run dev       # Servidor de desarrollo
-npm run build     # Compilación para producción
-npm run preview   # Previsualizar la build de producción
-npm run lint      # Analizar con ESLint
-npm run typecheck # Verificación de tipos con TypeScript
+npm run dev       # Start development server
+npm run build     # Build for production
+npm run preview   # Preview the production build
+npm run lint      # Run ESLint
+npm run typecheck # Check TypeScript types
 ```
 
-## 🧠 Cómo jugar (tips)
-- Mantén la salud alta ajustando pH, humedad y temperatura
-- Usa las acciones con moderación; cada una tiene efectos secundarios
-- Observa tendencias: si la humedad sube demasiado, evita regar
-- Avanza etapas solo cuando los indicadores estén estables
-- Revisa el análisis final para aprender y mejorar
+## 🧠 How to Play (tips)
+- Keep pH: 5.5–6.5, humidity: 60–80%, temperature: 15–22°C
+- Use actions sparingly; each has trade-offs
+- Watch trends: if humidity is rising, pause irrigation
+- Advance the stage when indicators are stable
+- Read the final analysis to learn what worked and why
 
-## 🧩 Arquitectura
-```
-src/
-├── components/      # UI (acciones, indicadores, visualización)
-├── hooks/           # Lógica del juego (useGameLogic)
-├── data/            # Etapas de crecimiento y datos de suelo
-├── types/           # Tipos TypeScript
-└── App.tsx          # Entrada principal
-```
-
-## 🎓 Valor educativo
-- Química del suelo y equilibrio de nutrientes
-- Gestión del agua y conservación
-- Fases de crecimiento vegetal en cultivo de papa
-- Factores ambientales y su impacto en la agricultura
-- Toma de decisiones informadas para sostenibilidad
+## 🎓 Educational Value
+- Soil chemistry and nutrient balance
+- Water management and conservation
+- Plant growth stages for potato crops
+- Environmental factors and their impact on agriculture
+- Informed decision-making for sustainability
 
 ## 🗺️ Roadmap
-- Modo historia expandido con más cultivos (quinoa, maíz)
-- Eventos climáticos adicionales (viento, tormenta)
-- Sistema de logros y misiones
-- Localización multilenguaje (ES/EN) con selector en la UI
-- Modo accesibilidad (alto contraste, descripciones)
+- Story mode expansion with additional crops (quinoa, corn)
+- Extra weather events (wind, storm)
+- Achievements and missions
+- Internationalization (EN/ES) with in-UI language switcher
+- Accessibility mode (high contrast, descriptions)
 
 ## ❓ FAQ
-- ¿El juego guarda progreso? Por ahora, el estado es temporal en sesión.
-- ¿Puedo añadir nuevos cultivos? Sí, ampliando `src/data/growthStages.ts` y la lógica en `useGameLogic`.
-- ¿Funciona en móvil? La UI es responsive y se adapta a pantallas pequeñas.
+- Does the game save progress? Session-only for now
+- Can I add new crops? Yes—extend `src/data/growthStages.ts` and logic in the main hook
+- Mobile support? Responsive UI adapts to small screens
 
-## 🤝 Contribuir
-1. Haz un fork
-2. Crea una rama: `git checkout -b feature/tu-feature`
-3. Commit: `git commit -m "feat: tu cambio"`
-4. Push: `git push origin feature/tu-feature`
-5. Abre un Pull Request
+## 🤝 Contributing
+1. Fork the repo
+2. Create a branch: `git checkout -b feature/your-feature`
+3. Commit: `git commit -m "feat: add your change"`
+4. Push: `git push origin feature/your-feature`
+5. Open a Pull Request
 
-## 📄 Licencia
-MIT. Consulta `LICENSE` para más detalles.
+## 📄 License
+MIT. See `LICENSE` for details.
