@@ -129,7 +129,7 @@ function App() {
           </div>
         </div>
 
-        {/* Modal de fin de juego como alerta automática */}
+        {/* End-game modal as automatic alert */}
         {showEndModal && (
           <div className="fixed inset-0 z-50 flex items-center justify-center">
             <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
@@ -216,7 +216,7 @@ function App() {
                   onClick={() => window.location.reload()}
                   className="inline-flex items-center px-5 py-2 rounded-lg bg-red-600/80 hover:bg-red-600 text-white font-semibold border border-red-500/70 shadow focus:outline-none focus:ring-2 focus:ring-red-400"
                 >
-                  Finalizar
+                  Finish
                 </button>
               </div>
             </div>
