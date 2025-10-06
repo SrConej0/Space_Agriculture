@@ -16,6 +16,8 @@ export function useGameLogic() {
   const [daysInStage, setDaysInStage] = useState(0);
   const [isProcessing, setIsProcessing] = useState(false);
   const [environmentalEffects, setEnvironmentalEffects] = useState({
+
+
     isRaining: false,
     isDayTime: true
   });

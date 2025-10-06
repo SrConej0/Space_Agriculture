@@ -14,9 +14,9 @@ export default function PlantVisualization({ stage, health }: PlantVisualization
     setScale(0);
     setTimeout(() => setScale(1), 100);
     
-    // Añadir efecto de brillo pulsante
+    // Add pulsating glow effect
     const glowInterval = setInterval(() => {
-      setGlowIntensity(prev => 0.7 + Math.sin(Date.now() / 1000) * 0.3);
+      setGlowIntensity(0.7 + Math.sin(Date.now() / 1000) * 0.3);
     }, 100);
     
     return () => clearInterval(glowInterval);
@@ -37,9 +37,9 @@ export default function PlantVisualization({ stage, health }: PlantVisualization
 
   return (
     <div className="relative w-full h-full flex items-end justify-center pb-4">
-      {/* Ambiente mejorado */}
+      {/* Enhanced environment */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Nubes flotantes */}
+        {/* Floating clouds */}
         {Array.from({ length: 3 }).map((_, i) => (
           <Cloud
             key={`cloud-${i}`}
@@ -55,7 +55,7 @@ export default function PlantVisualization({ stage, health }: PlantVisualization
           />
         ))}
         
-        {/* Partículas mejoradas */}
+        {/* Enhanced particles */}
         {Array.from({ length: 20 }).map((_, i) => (
           <div
             key={`particle-${i}`}
@@ -71,7 +71,7 @@ export default function PlantVisualization({ stage, health }: PlantVisualization
           />
         ))}
         
-        {/* Gotas de agua ocasionales */}
+        {/* Occasional water droplets */}
         {Array.from({ length: 5 }).map((_, i) => (
           <Droplets
             key={`droplet-${i}`}
@@ -88,7 +88,7 @@ export default function PlantVisualization({ stage, health }: PlantVisualization
         ))}
       </div>
 
-      {/* Sol mejorado con rayos */}
+      {/* Enhanced sun with rays */}
       <div className="absolute top-8 right-8">
         <div className="w-20 h-20 rounded-full bg-yellow-400/30 blur-xl animate-pulse" />
         {Array.from({ length: 8 }).map((_, i) => (
@@ -127,7 +127,7 @@ export default function PlantVisualization({ stage, health }: PlantVisualization
               }}
             />
             
-            {/* Raíces pequeñas */}
+            {/* Small roots */}
             <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2">
               {Array.from({ length: 3 }).map((_, i) => (
                 <div
@@ -149,7 +149,7 @@ export default function PlantVisualization({ stage, health }: PlantVisualization
         {stage >= 3 && (
           <div className="relative flex flex-col items-center">
             <div className="relative">
-              {/* Flores para etapas avanzadas (posición más alta) */}
+              {/* Flowers for advanced stages (higher position) */}
               {stage >= 5 && Array.from({ length: Math.min(stage - 4, 3) }).map((_, i) => (
                 <Flower
                   key={`flower-${i}`}
@@ -166,7 +166,7 @@ export default function PlantVisualization({ stage, health }: PlantVisualization
                 />
               ))}
               
-              {/* Hojas mejoradas con variación de color */}
+              {/* Enhanced leaves with color variation */}
               {Array.from({ length: leafCount }).map((_, i) => {
                 const angle = (i * 45) - 180;
                 const distance = 30 + (i % 2) * 15;
@@ -190,7 +190,7 @@ export default function PlantVisualization({ stage, health }: PlantVisualization
               })}
             </div>
 
-            {/* Tallo mejorado con textura */}
+            {/* Enhanced stem with texture */}
             <div
               className="w-3 bg-gradient-to-b from-green-600 to-green-800 rounded-t-lg relative overflow-hidden"
               style={{
@@ -198,7 +198,7 @@ export default function PlantVisualization({ stage, health }: PlantVisualization
                 boxShadow: `0 0 ${10 * glowIntensity}px rgba(125,216,125,${glowIntensity})`
               }}
             >
-              {/* Textura del tallo */}
+              {/* Stem texture */}
               {Array.from({ length: 5 }).map((_, i) => (
                 <div
                   key={`stem-texture-${i}`}

@@ -10,12 +10,12 @@ export default function StoryIntro({ onStart }: StoryIntroProps) {
   const [selectedPlant, setSelectedPlant] = useState<string>('papa');
 
   const plantOptions = [
-    { id: 'papa', name: 'Papa', available: true, emoji: '🥔' },
-    { id: 'quinua', name: 'Quinua', available: false, emoji: '🌾' },
-    { id: 'lenteja', name: 'Lenteja', available: false, emoji: '🫘' },
-    { id: 'amaranto', name: 'Amaranto', available: false, emoji: '🌿' },
-    { id: 'camote', name: 'Camote', available: false, emoji: '🍠' },
-    { id: 'cebada', name: 'Cebada', available: false, emoji: '🌾' },
+    { id: 'papa', name: 'Potato', available: true, emoji: '🥔' },
+    { id: 'quinua', name: 'Quinoa', available: false, emoji: '🌾' },
+    { id: 'lenteja', name: 'Lentil', available: false, emoji: '🫘' },
+    { id: 'amaranto', name: 'Amaranth', available: false, emoji: '🌿' },
+    { id: 'camote', name: 'Sweet Potato', available: false, emoji: '🍠' },
+    { id: 'cebada', name: 'Barley', available: false, emoji: '🌾' },
   ];
 
   return (
@@ -69,7 +69,7 @@ export default function StoryIntro({ onStart }: StoryIntroProps) {
       {showSelector && (
         <div className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm flex items-center justify-center">
           <div className="w-full max-w-3xl bg-gray-900/90 border border-green-500/40 rounded-2xl p-6 shadow-2xl">
-            <h3 className="text-2xl font-bold text-green-400 mb-4 text-center">Selecciona tu cultivo</h3>
+            <h3 className="text-2xl font-bold text-green-400 mb-4 text-center">Select your crop</h3>
 
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               {plantOptions.map((opt) => (
@@ -88,14 +88,14 @@ export default function StoryIntro({ onStart }: StoryIntroProps) {
                   {!opt.available && (
                     <div className="absolute inset-0 flex items-center justify-center">
                       <span className="text-red-500 font-bold text-sm line-through bg-red-500/10 px-2 py-1 rounded">
-                        Próximamente
+                        Coming soon
                       </span>
                     </div>
                   )}
 
                   {opt.available && selectedPlant === 'papa' && (
                     <div className="absolute top-2 right-2 bg-green-500/20 text-green-400 text-xs px-2 py-0.5 rounded">
-                      Seleccionado
+                      Selected
                     </div>
                   )}
                 </div>
@@ -107,7 +107,7 @@ export default function StoryIntro({ onStart }: StoryIntroProps) {
                 onClick={() => setShowSelector(false)}
                 className="px-4 py-2 border border-gray-600/60 rounded-lg text-gray-300 hover:bg-gray-800/60 transition"
               >
-                Cancelar
+                Cancel
               </button>
               <button
                 onClick={() => { setShowSelector(false); onStart(); }}
@@ -118,7 +118,7 @@ export default function StoryIntro({ onStart }: StoryIntroProps) {
                     : 'bg-gray-700/70 border border-gray-600/60 cursor-not-allowed opacity-70'
                 }`}
               >
-                Iniciar
+                Start
               </button>
             </div>
           </div>
