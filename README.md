@@ -45,35 +45,52 @@ High-level loop:
 
 Flow diagram:
 ```mermaid
-flowchart LR
-    A[Observe Indicators] --> B[Choose Action]
-    B --> C[Apply Effects to Soil]
-    C --> D[Update Game State]
-    D --> E[Evaluate Plant Health]
-    E --> F{In Optimal Range?}
-    F -- Yes --> G[Advance Growth Stage]
-    F -- No --> A
-    G --> H[Final Performance Analysis]
+flowchart LR;
+    A[Observe Indicators];
+    B[Choose Action];
+    C[Apply Effects to Soil];
+    D[Update Game State];
+    E[Evaluate Plant Health];
+    F{In Optimal Range?};
+    A --> B;
+    B --> C;
+    C --> D;
+    D --> E;
+    E --> F;
+    F -- Yes --> G[Advance Growth Stage];
+    F -- No --> A;
+    G --> H[Final Performance Analysis];
 ```
 
 ## 🧱 Architecture
 Core architecture focuses on a single source of truth for state and stateless visual components.
 
 ```mermaid
-graph TD
-    A[App.tsx] --> B[useGameLogic (hook)]
-    B --> C[ActionPanel.tsx]
-    B --> D[IndicatorPanel.tsx]
-    B --> E[PlantVisualization.tsx]
-    B --> F[ProgressBar.tsx]
-    B --> G[ScorePanel.tsx]
-    A --> H[EnvironmentalEffects.tsx]
-    A --> I[EducationalTooltip.tsx]
-    B --> J[data/growthStages.ts]
-    B --> K[types/game.ts]
+flowchart TD;
+    A[App];
+    B[useGameLogic];
+    C[ActionPanel];
+    D[IndicatorPanel];
+    E[PlantVisualization];
+    F[ProgressBar];
+    G[ScorePanel];
+    H[EnvironmentalEffects];
+    I[EducationalTooltip];
+    J[growthStages];
+    K[game types];
+    A --> B;
+    B --> C;
+    B --> D;
+    B --> E;
+    B --> F;
+    B --> G;
+    A --> H;
+    A --> I;
+    B --> J;
+    B --> K;
 ```
 
-- App.tsx orchestrates layout and passes state/handlers from the main hook
+- App orchestrates layout and passes state/handlers from the main hook
 - useGameLogic holds core state, side-effects, and action handlers
 - Components render UI based on state and emit user events
 - Data and Types modules provide growth config and type safety
@@ -86,12 +103,6 @@ graph TD
 - ScorePanel: end-game summary and performance insights
 - EnvironmentalEffects: day/night overlay and rain effects
 - EducationalTooltip: contextual tips and learning snippets
-
-References:
-- <mcfile name="App.tsx" path="D:\danie\Bolt\Bolt\src\App.tsx"></mcfile>
-- <mcfile name="useGameLogic.ts" path="D:\danie\Bolt\Bolt\src\hooks\useGameLogic.ts"></mcfile>
-- <mcfile name="growthStages.ts" path="D:\danie\Bolt\Bolt\src\data\growthStages.ts"></mcfile>
-- <mcfile name="game.ts" path="D:\danie\Bolt\Bolt\src\types\game.ts"></mcfile>
 
 ## 🛠️ Tech Stack
 - React 18 + TypeScript
