@@ -172,7 +172,7 @@ export function useGameLogic() {
         case 'fertilize_n':
           soil.nitrogen = Math.min(150, soil.nitrogen + 20);
           soil.electricalConductivity = Math.min(3, soil.electricalConductivity + 0.2);
-          // Los fertilizantes pueden acidificar el suelo
+          // Fertilizers can acidify the soil slightly
           soil.ph = Math.max(4.0, soil.ph - 0.1);
           break;
 
@@ -202,12 +202,12 @@ export function useGameLogic() {
           break;
           
         case 'cool_soil':
-          // Nueva acción para enfriar el suelo
+          // New action to cool the soil
           soil.temperature = Math.max(10, soil.temperature - 2);
           break;
           
         case 'warm_soil':
-          // Nueva acción para calentar el suelo
+          // New action to warm the soil
           soil.temperature = Math.min(30, soil.temperature + 2);
           break;
       }
