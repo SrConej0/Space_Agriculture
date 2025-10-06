@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Droplet, Beaker, Wind, Plus, Zap, Info } from 'lucide-react';
 import { GameState } from '../types/game';
 import EducationalTooltip from './EducationalTooltip';
@@ -9,11 +9,69 @@ interface ActionPanelProps {
   disabled: boolean;
 }
 
-export default function ActionPanel({ gameState, onAction, disabled }: ActionPanelProps) {
+export default function ActionPanel({ onAction, disabled }: ActionPanelProps) {
   const [selectedAction, setSelectedAction] = useState<string | null>(null);
+  const audioCtxRef = useRef<AudioContext | null>(null);
+
+  const getAudioContext = () => {
+    if (!audioCtxRef.current) {
+      const AC = (window as any).AudioContext || (window as any).webkitAudioContext;
+      audioCtxRef.current = new AC();
+    }
+    const ctx = audioCtxRef.current!;
+    if (ctx.state === 'suspended') ctx.resume();
+    return ctx;
+  };
+
+  const playTone = (freq: number, durationMs = 160, type: OscillatorType = 'sine', volume = 0.06) => {
+    const ctx = getAudioContext();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, ctx.currentTime);
+    gain.gain.setValueAtTime(volume, ctx.currentTime);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    const now = ctx.currentTime;
+    osc.start(now);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + durationMs / 1000);
+    osc.stop(now + durationMs / 1000 + 0.02);
+  };
+
+  const playSoundForAction = (actionId: string) => {
+    switch (actionId) {
+      case 'water':
+        playTone(520, 160, 'sine', 0.08);
+        break;
+      case 'fertilize_n':
+        playTone(640, 160, 'triangle');
+        break;
+      case 'fertilize_p':
+        playTone(720, 160, 'triangle');
+        break;
+      case 'fertilize_k':
+        playTone(800, 160, 'triangle');
+        break;
+      case 'compost':
+        playTone(300, 180, 'sawtooth');
+        break;
+      case 'adjust_ph':
+        playTone(440, 160, 'square');
+        break;
+      case 'cool_soil':
+        playTone(360, 160, 'sine');
+        break;
+      case 'warm_soil':
+        playTone(900, 160, 'sine');
+        break;
+      default:
+        playTone(500, 120, 'sine');
+    }
+  };
 
   const handleActionClick = (actionId: string) => {
     setSelectedAction(actionId);
+    playSoundForAction(actionId);
     onAction(actionId);
     setTimeout(() => setSelectedAction(null), 500);
   };
